@@ -3,27 +3,34 @@
 
 class aBoard {
 public:
-    aBoard(int grid[3][3]);
-    aBoard();
-    void updateGrid(int pos, int turn);
-    bool checkWin();
-    bool isEmpty(int i);
     int playerTurn;
     int grid[3][3];
 
+    aBoard(int grid[3][3], int turn);
+    aBoard();
+
+    int checkWin();
+    void updateGrid(int pos, int turn);
+    bool isEmpty(int i);
+    bool checkDraw();
+
 };
 
-class pBoard::aBoard {
+class pBoard: public aBoard {
 public:
+    int checkWin();
     void printGrid();
-    void takeTurn();
+    void takeTurn(int turn);
     // Will call updateGrid with user inputs.
 };
 
 class aiPlayer {
 public:
+    aiPlayer(int turn);
     int aiTurn;
-    int bestMove(int turn; int depth, aBoard board);
+    int findMax(int arr[]);
+    int findMin(int arr[]);
+    int bestMove(int turn, int depth, aBoard board);
 };
 
 

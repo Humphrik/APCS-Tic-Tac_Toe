@@ -1,59 +1,77 @@
 #include "BOARD.h"
+#include <iostream>
+using namespace std;
 
 aBoard::aBoard(int preset[3][3], int turn) {
-    grid = preset;
+    for(int i = 0; i < 9; i++)
+        grid[i/3][i%3] = preset[i/3][i%3];
     playerTurn = turn;
 }
 
 aBoard::aBoard() {
-    grid = {0,0,0,0,0,0,0,0,0};
+    for(int i = 0; i < 9; i++)
+        grid[i/3][i%3] = 0;
     playerTurn = 1;
 }
 
-bool aBoard::checkWin() {
+int aBoard::checkWin() {
     for(int i = 0; i < 3; i++) {
         if(( grid[0][i] != 0 && grid[0][i] == grid[1][i] && grid[1][i] == grid[2][i])
            || (grid[i][0] != 0 && grid[i][0] == grid[i][1] && grid[i][1] == grid[i][2]))
-           return true;
+           return grid[0][i];
     }
-    return ((grid[0][0] != 0 && grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2])
-            || (grid [0][2] != 0 && grid[0][2] == grid[1][1] && grid[1][1] == grid[2][0]));
+    if ((grid[0][0] != 0 && grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2])
+            || (grid [0][2] != 0 && grid[0][2] == grid[1][1] && grid[1][1] == grid[2][0]))
+            return grid[1][1];
+    else return 0;
 }
 
 void aBoard::updateGrid(int pos, int turn) {
     grid[pos/3][pos%3] = turn;
-    checkWin();
+    // checkWin();
 }
 
-bool isEmpty(int i) {
+bool aBoard::isEmpty(int i) {
     return (grid[i/3][i%3] == 0);
 }
+
+bool aBoard::checkDraw() {
+    for(int i = 0; i < 9; i++)
+        if(grid[i] != 0)
+            return false;
+    return true;
+}
 /////////////////////////////////
-pBoard::pBoard() {}
+
+int pBoard::checkWin() {
+    return aBoard::checkWin();
+}
 
 void pBoard::printGrid() {
     for(int i = 0; i < 9; i++) {
         if(i == 3 || i == 6)
-            std::cout << endl << "_____";
+            cout << endl << "_____" << endl;
         switch(grid[i/3][i%3]) {
         case 0:
-            std::cout << " "
+            cout << " ";
             break;
         case 1:
-            std::cout << "X";
+            cout << "X";
             break;
-        case 2:
-            std::cout << "O";
+        case -1:
+            cout << "O";
             break;
         }
-        std::cout << "|";
+        if(i%3 != 2) {
+                cout << "|";
+        }
     }
+    cout << endl;
 }
 
-void pBoard::takeTurn() {
-    std::cout << "Please input a number 1-8";
+void pBoard::takeTurn(int turn) {
+    std::cout << "Please input a number 1-8" << endl;
     int input;
     std::cin >> input;
-    updateGrid(input, playerTurn);
-    printGrid();
+    aBoard::updateGrid(input, turn);
 }

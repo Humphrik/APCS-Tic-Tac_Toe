@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1497539998 source:c:\users\humphrik\desktop\apcs-tic-tac_toe-master\abstractboard.cpp
+	"BOARD.h"
+	<iostream>
+
+1497539971 c:\users\humphrik\desktop\apcs-tic-tac_toe-master\board.h
+
+1497539878 source:c:\users\humphrik\desktop\apcs-tic-tac_toe-master\aiplayer.cpp
+	"BOARD.h"
+	<iostream>
+
+1497540303 source:c:\users\humphrik\desktop\apcs-tic-tac_toe-master\main.cpp
+	<iostream>
+	"BOARD.h"
+

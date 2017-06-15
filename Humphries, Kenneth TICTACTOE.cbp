@@ -32,7 +32,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="BOARD.h" />
 		<Unit filename="abstractboard.cpp" />
+		<Unit filename="aiplayer.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
