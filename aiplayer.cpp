@@ -26,7 +26,7 @@ int aiPlayer::findMin(vector<int> vec) {
     int minIndex = 0;
     for(int i = 0; i < vec.size(); i++) {
         //std::cout << arr[i] << std::endl;
-        if(vec.at(i) <- minInt) {
+        if(vec.at(i) < minInt) {
             minInt = vec.at(i);
             minIndex = i;
         }
