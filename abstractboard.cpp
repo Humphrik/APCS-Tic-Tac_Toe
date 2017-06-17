@@ -37,9 +37,20 @@ bool aBoard::isEmpty(int i) {
 
 bool aBoard::checkDraw() {
     for(int i = 0; i < 9; i++)
-        if(grid[i] != 0)
+        if(grid[i/3][i%3] == 0)
             return false;
-    return true;
+    return checkWin() == 0;
+}
+
+int aBoard::score(int depth, int turn) {
+    int winner = checkWin();
+    if(winner == turn)
+        return 10-depth;
+    else if(winner == turn*-1) {
+        return depth-10;
+    }
+    return 0;
+
 }
 /////////////////////////////////
 
@@ -71,7 +82,12 @@ void pBoard::printGrid() {
 
 void pBoard::takeTurn(int turn) {
     std::cout << "Please input a number 1-8" << endl;
-    int input;
-    std::cin >> input;
+    int input = -1;
+    while(input < 0 || input > 8 || !isEmpty(input))
+        std::cin >> input;
     aBoard::updateGrid(input, turn);
+}
+
+bool pBoard::isEmpty(int i) {
+    return aBoard::isEmpty(i);
 }

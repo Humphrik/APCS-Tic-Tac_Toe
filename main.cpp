@@ -14,18 +14,22 @@ int main()
             playerTurn = -1;
     }
     pBoard gameBoard;
-    aiPlayer computer(playerTurn*-1);
+    aiPlayer computer(-playerTurn);
     int currentTurn = 1;
     for(int i = 0; gameBoard.checkWin() == 0 && i < 9; i++, currentTurn*=-1) {
         gameBoard.printGrid();
         if(currentTurn == playerTurn)
             gameBoard.takeTurn(currentTurn);
-        else
-            cout << computer.bestMove(currentTurn, 1, gameBoard);
-            //gameBoard.updateGrid(computer.bestMove(currentTurn, 1, gameBoard), currentTurn);
-            //gameBoard.takeTurn(currentTurn);
+        else {
+            int dump = computer.bestMove(currentTurn, 1, gameBoard);
+            gameBoard.updateGrid(computer.choice, currentTurn);
+            // Replace the 2 lines above with the one below for 2P.
+            // gameBoard.takeTurn(currentTurn);
+        }
+        cout << "\n\n";
     }
     gameBoard.printGrid();
+    cout << gameBoard.checkDraw() << "!!!!!!!!!!!!!!" << endl;
     if(gameBoard.checkWin() == playerTurn)
         cout << "Player wins!";
     else if(gameBoard.checkWin() != 0)

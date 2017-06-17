@@ -1,51 +1,73 @@
 #include "BOARD.h"
 #include <iostream>
+#include <vector>
+
+using namespace std;
 
 aiPlayer::aiPlayer(int turn) {
     aiTurn = turn;
 }
 
-int aiPlayer::findMax(int arr[9]) {
-    for(int i = 0; i < 9; i++)
-        std::cout << arr[i] << std::endl;
-    int maxInt = arr[0];
-    for(int i = 0; i < 9; i++)
-        if(arr[i] > maxInt)
-            maxInt = arr[i];
-    return maxInt;
+int aiPlayer::findMax(vector<int> vec) {
+    int maxInt = vec.at(0);
+    int maxIndex = 0;
+    for(int i = 0; i < vec.size(); i++) {
+        //std::cout << arr[i] << std::endl;
+        if(vec.at(i) > maxInt) {
+            maxInt = vec.at(i);
+            maxIndex = i;
+        }
+    }
+    return maxIndex;
 }
 
-int aiPlayer::findMin(int arr[9]) {
-    int minInt = arr[0];
-    for(int i = 0; i < 9; i++)
-        if(arr[i] < minInt)
-            minInt = arr[i];
-    return minInt;
+int aiPlayer::findMin(vector<int> vec) {
+    int minInt = vec.at(0);
+    int minIndex = 0;
+    for(int i = 0; i < vec.size(); i++) {
+        //std::cout << arr[i] << std::endl;
+        if(vec.at(i) <- minInt) {
+            minInt = vec.at(i);
+            minIndex = i;
+        }
+    }
+    return minIndex;
 }
+
+
+
 
 int aiPlayer::bestMove(int turn, int depth, aBoard board) {
-    std::cout << "Depth: " << depth;
-    int scores[9];
-    return findMax(scores);
-    for(int i = 0; i < 9; i++) {
-        aBoard tempBoard(board.grid, turn);
-        if(tempBoard.checkDraw())
-            scores[i] = 0;
-        else if(tempBoard.isEmpty(i)) {
-            tempBoard.updateGrid(i, turn);
-            int winner = tempBoard.checkWin();
-            if(winner != 0) {
-                scores[i] = 10-depth;
-                if(winner != aiTurn)
-                    scores[i] *= -1;
-            }
-            else
-                scores[i] = bestMove(turn*-1, depth+1, tempBoard);
-        }
-        }
-    if(turn == aiTurn)
-            return findMax(scores);
-    return findMin(scores);
-
+    if(board.checkDraw() || board.checkWin() != 0) {
+        return board.score(depth, aiTurn);
     }
-
+    depth += 1;
+    vector<int> scores;
+    vector<int> moves;
+    for(int i = 0; i < 9; i++)
+        if(board.isEmpty(i))
+           moves.push_back(i);
+   //11 cout << moves.size() << "! ";
+    for(int i = 0; i < moves.size(); i++) {
+        aBoard tempBoard(board.grid, turn);
+        tempBoard.updateGrid(moves.at(i), turn);
+        scores.push_back(bestMove(-turn, depth, tempBoard));
+    }
+  if(depth == 2) {
+    for(int i = 0; i < moves.size(); i++)
+        cout << moves.at(i) << ", " << endl;
+    cout << endl;
+    for(int i = 0; i < scores.size(); i++)
+        cout << scores.at(i) << ", " << endl;
+  }
+    if(turn == aiTurn) {
+        int maxScoreIndex = findMax(scores);
+        choice = moves.at(maxScoreIndex);
+        return scores.at(maxScoreIndex);
+    }
+   else {
+        int minScoreIndex = findMin(scores);
+        choice = moves.at(minScoreIndex);
+        return scores.at(minScoreIndex);
+   }
+}
